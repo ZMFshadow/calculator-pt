@@ -1,198 +1,34 @@
-<!doctype html>
-<html lang="pt">
-
+<!DOCTYPE html>
+<html lang="pt-PT">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G2XL5RXW87"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-G2XL5RXW87');
-  </script>
-  <meta charset="utf-8">
-  <meta name="description" content="Calculadora de Revshare para agentes imobiliários. Calcule sua renda com base no modelo de revshare adaptado para o mercado português.">
-  <title>Calculadora de Revshare para Agentes Imobiliários</title>
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://seusite.com/">
-  <meta property="og:title" content="Calculadora de Revshare para Agentes Imobiliários">
-  <meta property="og:description" content="Calculadora de revshare para agentes imobiliários, projetada para ajudá-lo a calcular seus ganhos com base no modelo de revshare do mercado imobiliário português.">
-  <meta property="og:image" content="https://seusite.com/assets/images/home.jpg">
-  <link rel="canonical" href="https://seusite.com/">
-  <meta name="apple-mobile-web-app-title" content="Calculadora de Revshare">
-  <meta name="application-name" content="Calculadora de Revshare">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
-  <link rel="manifest" href="/assets/images/site.webmanifest">
-  <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#635bff">
-  <link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <meta name="msapplication-TileColor" content="#635bff">
-  <meta name="msapplication-config" content="/assets/images/browserconfig.xml">
-  <meta name="theme-color" content="#635bff">
-  <script src="https://kit.fontawesome.com/af4ac1a474.js" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-  <link href="./assets/css/style.css" rel="stylesheet" />
-  <link href="./assets/css/theme.css" rel="stylesheet" />
-  <style>
-    :root {
-      --bs-body-color: #333;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2rem;
-      font-weight: 600;
-    }
-
-    .metric-card {
-      padding: 2rem;
-      border-radius: 1rem;
-      background-color: #f8f9fa;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .metric-card h3 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .metric-card p {
-      font-size: 1.25rem;
-    }
-
-    .form-floating input {
-      border-radius: 0.5rem;
-    }
-
-    .disclaimer {
-      background-color: #e9ecef;
-      padding: 1rem;
-      margin-top: 2rem;
-      border-radius: 0.5rem;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Comissões</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="container py-5">
-    <h1 class="text-center mb-5">Calculadora de Revshare para Agentes Imobiliários</h1>
-
-    <!-- Input Section -->
-    <div class="row">
-      <div class="col-md-6">
-        <h2 class="section-title">Entradas</h2>
-        <form id="revshareForm" class="row g-3">
-          <!-- Number of homes sold -->
-          <div class="col-md-12">
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="homesSold" placeholder="12" aria-describedby="homesSoldHelp" min="0" value="0" />
-              <label for="homesSold">Número de imóveis vendidos por ano</label>
-              <div id="homesSoldHelp" class="form-text">A média de imóveis vendidos por ano por um agente.</div>
+    <div class="container">
+        <h1>Calculadora de Comissões</h1>
+        <form id="commissionForm">
+            <div class="tier" data-tier="1">
+                <h2>Nível 1</h2>
+                <label for="agentsTier1">Número de agentes:</label>
+                <input type="number" id="agentsTier1" name="agentsTier1" value="0" min="0">
+                <p>Comissão: 3,5% (máximo de €2800 por agente)</p>
             </div>
-          </div>
-
-          <!-- Average home price -->
-          <div class="col-md-12">
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="avgHomePrice" placeholder="200000" min="0" value="0" />
-              <label for="avgHomePrice">Preço médio dos imóveis (€)</label>
+            <div class="tier" data-tier="2">
+                <h2>Nível 2</h2>
+                <label for="agentsTier2">Número de agentes:</label>
+                <input type="number" id="agentsTier2" name="agentsTier2" value="0" min="0">
+                <p>Comissão: 0,2% (máximo de €3200 por agente)</p>
             </div>
-          </div>
-
-          <!-- Commission percentage -->
-          <div class="col-md-12">
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="commissionRate" placeholder="5" min="0" value="0" />
-              <label for="commissionRate">Taxa de comissão (%)</label>
-            </div>
-          </div>
-
-          <!-- Tier 1 Recruits -->
-          <div class="col-md-12">
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="tier1Recruits" placeholder="5" min="0" value="0" />
-              <label for="tier1Recruits">Número de recrutas no Tier 1</label>
-            </div>
-          </div>
-
-          <!-- Revshare Percentage -->
-          <div class="col-md-12">
-            <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="revsharePercentage" placeholder="5" min="0" value="5" />
-              <label for="revsharePercentage">Percentagem de Revshare (%)</label>
-            </div>
-          </div>
-
-          <button type="button" class="btn btn-primary btn-lg w-100" onclick="add()">Calcular</button>
+            <!-- Adicione mais níveis conforme necessário -->
+            <button type="button" onclick="calculateCommissions()">Calcular</button>
         </form>
-      </div>
-
-      <!-- Results Section -->
-      <div class="col-md-6">
-        <h2 class="section-title">Resultados</h2>
-
-        <div class="metric-card">
-          <h3>Revshare Anual</h3>
-          <p>€<span id="revTotalAnnualShare">0</span></p>
+        <div id="results">
+            <!-- Os resultados serão exibidos aqui -->
         </div>
-
-        <div class="metric-card">
-          <h3>Revshare Mensal</h3>
-          <p>€<span id="revTotalMonthlyShare">0</span></p>
-        </div>
-
-        <div class="metric-card">
-          <h3>Rendimento do Tier 1</h3>
-          <p>€<span id="revTier1Share">0</span></p>
-        </div>
-      </div>
     </div>
-
-    <!-- Disclaimer -->
-    <div class="disclaimer">
-      <b>AVISO</b>: Esta página não é oficial. O objetivo é facilitar a compreensão do modelo de revshare no mercado imobiliário português.
-    </div>
-  </div>
-
-  <script>
-    function calculateRevTiers() {
-      const homesSold = parseFloat(document.getElementById('homesSold').value);
-      const avgHomePrice = parseFloat(document.getElementById('avgHomePrice').value);
-      const commissionRate = parseFloat(document.getElementById('commissionRate').value);
-      const tier1Recruits = parseFloat(document.getElementById('tier1Recruits').value);
-      const revsharePercentage = parseFloat(document.getElementById('revsharePercentage').value);
-
-      const agentCommission = (homesSold * avgHomePrice * (commissionRate / 100));
-      const revshareTier1 = (tier1Recruits * agentCommission * (revsharePercentage / 100));
-
-      return {
-        annualShare: agentCommission + revshareTier1,
-        monthlyShare: (agentCommission + revshareTier1) / 12,
-        tier1Share: revshareTier1
-      };
-    }
-
-    function add() {
-      const revCalculated = calculateRevTiers();
-
-      document.getElementById("revTotalAnnualShare").innerHTML = Math.round(revCalculated.annualShare).toLocaleString();
-      document.getElementById("revTotalMonthlyShare").innerHTML = Math.round(revCalculated.monthlyShare).toLocaleString();
-      document.getElementById("revTier1Share").innerHTML = Math.round(revCalculated.tier1Share).toLocaleString();
-    }
-
-    add(); // Initialize with default values
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-    crossorigin="anonymous"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>

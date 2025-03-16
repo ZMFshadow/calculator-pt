@@ -1,33 +1,28 @@
-let display = document.getElementById('display');
-let currentInput = '0';
+const commissionRates = [
+    { rate: 0.035, maxPerAgent: 2800 },
+    { rate: 0.002, maxPerAgent: 3200 },
+    // Adicione mais níveis conforme necessário
+];
 
-function insert(value) {
-    if (currentInput === '0' && value !== '.') {
-        currentInput = value;
-    } else {
-        currentInput += value;
-    }
-    display.innerText = currentInput;
-}
+function calculateCommissions() {
+    const form = document.getElementById('commissionForm');
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = ''; // Limpar resultados anteriores
 
-function clearDisplay() {
-    currentInput = '0';
-    display.innerText = currentInput;
-}
+    commissionRates.forEach((tier, index) => {
+        const agentsInput = form[`agentsTier${index + 1}`];
+        const numAgents = parseInt(agentsInput.value) || 0;
+        const commissionPerAgent = tier.rate * 100; // Converter para porcentagem
+        const totalCommission = Math.min(commissionPerAgent * numAgents, tier.maxPerAgent * numAgents);
 
-function deleteLast() {
-    currentInput = currentInput.slice(0, -1);
-    if (currentInput === '') {
-        currentInput = '0';
-    }
-    display.innerText = currentInput;
-}
-
-function calculate() {
-    try {
-        currentInput = eval(currentInput).toString();
-        display.innerText = currentInput + ' €';
-    } catch (error) {
-        display.innerText = 'Erro';
-    }
+        const tierResult = document.createElement('div');
+        tierResult.classList.add('tier-result');
+        tierResult.innerHTML = `
+            <h3>Nível ${index + 1}</h3>
+            <p>Número de agentes: ${numAgents}</p>
+            <p>Comissão por agente: €${(commissionPerAgent * 100).toFixed(2)}</p>
+            <p>Comissão total: €${totalCommission.toFixed(2)}</p>
+        `;
+        resultsDiv.appendChild(tierResult);
+    });
 }
