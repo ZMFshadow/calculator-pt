@@ -1,38 +1,148 @@
-<!DOCTYPE html>
-<html lang="pt-PT">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora em Euros</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="calculator">
-        <h1>Calculadora (€)</h1>
-        <div id="display">0</div>
-        <div class="buttons">
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="deleteLast()">←</button>
-            <button onclick="insert('%')">%</button>
-            <button onclick="insert('/')">÷</button>
-            <button onclick="insert('7')">7</button>
-            <button onclick="insert('8')">8</button>
-            <button onclick="insert('9')">9</button>
-            <button onclick="insert('*')">×</button>
-            <button onclick="insert('4')">4</button>
-            <button onclick="insert('5')">5</button>
-            <button onclick="insert('6')">6</button>
-            <button onclick="insert('-')">-</button>
-            <button onclick="insert('1')">1</button>
-            <button onclick="insert('2')">2</button>
-            <button onclick="insert('3')">3</button>
-            <button onclick="insert('+')">+</button>
-            <button onclick="insert('0')">0</button>
-            <button onclick="insert('.')">.</button>
-            <button onclick="calculate()">=</button>
-        </div>
-    </div>
+<!doctype html>
+<html lang="pt">
 
-    <script src="script.js"></script>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G2XL5RXW87"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-G2XL5RXW87');
+  </script>
+  <meta charset="utf-8">
+  <meta name="description" content="Calculadora de Revshare para agentes imobiliários. Calcule sua renda com base no modelo de revshare adaptado para o mercado português.">
+  <title>Calculadora de Revshare para Agentes Imobiliários</title>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seusite.com/">
+  <meta property="og:title" content="Calculadora de Revshare para Agentes Imobiliários">
+  <meta property="og:description" content="Calculadora de revshare para agentes imobiliários, projetada para ajudá-lo a calcular seus ganhos com base no modelo de revshare do mercado imobiliário português.">
+  <meta property="og:image" content="https://seusite.com/assets/images/home.jpg">
+  <link rel="canonical" href="https://seusite.com/">
+  <meta name="apple-mobile-web-app-title" content="Calculadora de Revshare">
+  <meta name="application-name" content="Calculadora de Revshare">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+  <link rel="manifest" href="/assets/images/site.webmanifest">
+  <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#635bff">
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <meta name="msapplication-TileColor" content="#635bff">
+  <meta name="msapplication-config" content="/assets/images/browserconfig.xml">
+  <meta name="theme-color" content="#635bff">
+  <script src="https://kit.fontawesome.com/af4ac1a474.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link href="./assets/css/style.css" rel="stylesheet" />
+  <link href="./assets/css/theme.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bs-body-color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid p-3 p-sm-5">
+    <h1 class="display-5 mb-5 text-center">Calculadora de Revshare para Agentes Imobiliários</h1>
+    <div id="main" class="row mb-4 pb-4">
+      <div class="col-sm-6 mb-5">
+        <div class="card">
+          <div class="card-body p-4 px-md-5 border-0 position-relative">
+            <h5 class="card-title text-left mt-3 mb-0">Rev Share</h5>
+            <p class="small text-muted"><a href="https://seusite.com/guia-completo" target="_blank">Fonte</a> de acordo com o modelo do mercado imobiliário português</p>
+            <div class="row">
+              <div class="col">
+                <p class="tty text-left display-6 mb-0">€<span id="revTotalAnnualShare">0</span></p>
+                <p class="text-left"><small class="text-secondary">Anual</small></p>
+              </div>
+              <div class="col">
+                <p class="tty text-left display-6 mb-0">€<span id="revTotalMonthlyShare">0</span></p>
+                <p class="text-left"><small class="text-secondary">Mês</small></p>
+              </div>
+            </div>
+            <p class="mb-1 text-left">Rendimento Tier 1: €<span class="" id="revTier1Recruit">0</span></p>
+            <!-- Aqui você pode adicionar os outros Tiers conforme o modelo de Revshare do mercado português -->
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mb-5">
+        <form class="row">
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="homesSold" placeholder="12" aria-describedby="homesSoldHelp" min="0" value="0" />
+              <label for="homesSold">Número de imóveis vendidos por ano</label>
+              <div id="homesSoldHelp" class="form-text">A média de imóveis vendidos por ano por um agente no mercado português.</div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="pricePerHome" placeholder="150000" aria-describedby="pricePerHomeHelp" min="0" value="150000" />
+              <label for="pricePerHome">Preço médio do imóvel vendido</label>
+              <div id="pricePerHomeHelp" class="form-text">O preço médio de venda de imóveis em Portugal é de 150.000€.</div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="averageCommission" placeholder="5" aria-describedby="averageCommissionHelp" min="0" value="5" />
+              <label for="averageCommission">Percentagem média de comissão</label>
+              <div id="averageCommissionHelp" class="form-text">Comissão média para agentes imobiliários em Portugal.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <b>AVISO</b>: Esta página não é oficial. O objetivo é facilitar a compreensão do modelo de revshare no mercado imobiliário português.
+      </div>
+    </div>
+  </div>
+  <script src="./assets/js/helper.js"></script>
+  <script src="./assets/js/urlparams.js"></script>
+  <script src="./assets/js/exp.js"></script>
+  <script>
+    function add() {
+      const revCalculatedTiers = calculateRevTiers();
+
+      let revTotalAnnualShare = 0;
+      for (const revTier of revCalculatedTiers) revTotalAnnualShare += revTier.annualShare;
+      document.getElementById("revTotalAnnualShare").innerHTML = Math.round(revTotalAnnualShare).toLocaleString();
+      document.getElementById("revTotalMonthlyShare").innerHTML = Math.round(revTotalAnnualShare / 12).toLocaleString();
+
+      // Atualizar os Tiers de acordo com os cálculos
+    }
+
+    add(); // Inicializador
+
+    const allRanges = document.querySelectorAll(".range-wrap");
+    allRanges.forEach(wrap => {
+      const range = wrap.querySelector(".form-range");
+      const bubble = wrap.querySelector("output");
+      range.addEventListener("input", () => {
+        setBubble(range, bubble);
+      });
+      setBubble(range, bubble);
+    });
+
+    const allInputs = document.querySelectorAll("input");
+    allInputs.forEach(input => {
+      input.addEventListener("change", () => add());
+    });
+
+    function setBubble(range, bubble) {
+      const val = range.value;
+      const min = range.min ? range.min : 0;
+      const max = range.max ? range.max : 100;
+      const newVal = Number(((val - min) * 100) / (max - min));
+      bubble.innerHTML = val;
+      bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
