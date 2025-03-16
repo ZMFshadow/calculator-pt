@@ -20,7 +20,7 @@
 
             <!-- Preço médio de venda da casa -->
             <div class="form-group">
-                <label for="avgHomePrice">Preço médio da casa:</label>
+                <label for="avgHomePrice">Preço médio de venda da casa:</label>
                 <input type="number" id="avgHomePrice" name="avgHomePrice" value="300000" min="0">
                 <small>O preço médio das casas varia entre €300,000</small>
             </div>
@@ -86,11 +86,14 @@
             <button type="button" onclick="calculateCommissions()">Calcular</button>
         </form>
 
-        <!-- Div para exibir os resultados -->
+        <!-- Resultados -->
         <div id="results">
-            <!-- Os resultados serão exibidos aqui -->
+            <h2>Resultado Total</h2>
+            <p>Receita Anual: €<span id="expTotalAnnualShare">0</span></p>
+            <p>Receita Mensal: €<span id="expTotalMonthlyShare">0</span></p>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
