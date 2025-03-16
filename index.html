@@ -38,67 +38,113 @@
   <link href="./assets/css/theme.css" rel="stylesheet" />
   <style>
     :root {
-      --bs-body-color: #aaa;
+      --bs-body-color: #333;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .metric-card {
+      padding: 2rem;
+      border-radius: 1rem;
+      background-color: #f8f9fa;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .metric-card h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .metric-card p {
+      font-size: 1.25rem;
+    }
+
+    .form-floating input {
+      border-radius: 0.5rem;
+    }
+
+    .disclaimer {
+      background-color: #e9ecef;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: 0.5rem;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <div class="container-fluid p-3 p-sm-5">
-    <h1 class="display-5 mb-5 text-center">Calculadora de Revshare para Agentes Imobiliários</h1>
-    <div id="main" class="row mb-4 pb-4">
-      <div class="col-sm-6 mb-5">
-        <div class="card">
-          <div class="card-body p-4 px-md-5 border-0 position-relative">
-            <h5 class="card-title text-left mt-3 mb-0">Rev Share</h5>
-            <p class="small text-muted"><a href="https://seusite.com/guia-completo" target="_blank">Fonte</a> de acordo com o modelo do mercado imobiliário português</p>
-            <div class="row">
-              <div class="col">
-                <p class="tty text-left display-6 mb-0">€<span id="revTotalAnnualShare">0</span></p>
-                <p class="text-left"><small class="text-secondary">Anual</small></p>
-              </div>
-              <div class="col">
-                <p class="tty text-left display-6 mb-0">€<span id="revTotalMonthlyShare">0</span></p>
-                <p class="text-left"><small class="text-secondary">Mês</small></p>
-              </div>
-            </div>
-            <p class="mb-1 text-left">Rendimento Tier 1: €<span class="" id="revTier1Recruit">0</span></p>
-            <!-- Aqui você pode adicionar os outros Tiers conforme o modelo de Revshare do mercado português -->
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 mb-5">
-        <form class="row">
+  <div class="container py-5">
+    <h1 class="text-center mb-5">Calculadora de Revshare para Agentes Imobiliários</h1>
+
+    <!-- Input Section -->
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="section-title">Entradas</h2>
+        <form id="revshareForm" class="row g-3">
+          <!-- Number of homes sold -->
           <div class="col-md-12">
             <div class="form-floating mb-3">
               <input type="number" class="form-control" id="homesSold" placeholder="12" aria-describedby="homesSoldHelp" min="0" value="0" />
               <label for="homesSold">Número de imóveis vendidos por ano</label>
-              <div id="homesSoldHelp" class="form-text">A média de imóveis vendidos por ano por um agente no mercado português.</div>
+              <div id="homesSoldHelp" class="form-text">A média de imóveis vendidos por ano por um agente.</div>
             </div>
           </div>
+
+          <!-- Average home price -->
           <div class="col-md-12">
             <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="pricePerHome" placeholder="150000" aria-describedby="pricePerHomeHelp" min="0" value="150000" />
-              <label for="pricePerHome">Preço médio do imóvel vendido</label>
-              <div id="pricePerHomeHelp" class="form-text">O preço médio de venda de imóveis em Portugal é de 150.000€.</div>
+              <input type="number" class="form-control" id="avgHomePrice" placeholder="200000" min="0" value="0" />
+              <label for="avgHomePrice">Preço médio dos imóveis (€)</label>
             </div>
           </div>
+
+          <!-- Commission percentage -->
           <div class="col-md-12">
             <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="averageCommission" placeholder="5" aria-describedby="averageCommissionHelp" min="0" value="5" />
-              <label for="averageCommission">Percentagem média de comissão</label>
-              <div id="averageCommissionHelp" class="form-text">Comissão média para agentes imobiliários em Portugal.</div>
+              <input type="number" class="form-control" id="commissionRate" placeholder="5" min="0" value="0" />
+              <label for="commissionRate">Taxa de comissão (%)</label>
             </div>
           </div>
+
+          <button type="button" class="btn btn-primary btn-lg w-100" onclick="add()">Calcular</button>
         </form>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <b>AVISO</b>: Esta página não é oficial. O objetivo é facilitar a compreensão do modelo de revshare no mercado imobiliário português.
+
+      <!-- Results Section -->
+      <div class="col-md-6">
+        <h2 class="section-title">Resultados</h2>
+
+        <div class="metric-card">
+          <h3>Revshare Anual</h3>
+          <p>€<span id="revTotalAnnualShare">0</span></p>
+        </div>
+
+        <div class="metric-card">
+          <h3>Revshare Mensal</h3>
+          <p>€<span id="revTotalMonthlyShare">0</span></p>
+        </div>
+
+        <div class="metric-card">
+          <h3>Rendimento por Tier</h3>
+          <p>Tier 1: €<span id="revTier1Recruit">0</span></p>
+        </div>
       </div>
     </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <b>AVISO</b>: Esta página não é oficial. O objetivo é facilitar a compreensão do modelo de revshare no mercado imobiliário português.
+    </div>
   </div>
+
   <script src="./assets/js/helper.js"></script>
   <script src="./assets/js/urlparams.js"></script>
   <script src="./assets/js/exp.js"></script>
@@ -111,35 +157,13 @@
       document.getElementById("revTotalAnnualShare").innerHTML = Math.round(revTotalAnnualShare).toLocaleString();
       document.getElementById("revTotalMonthlyShare").innerHTML = Math.round(revTotalAnnualShare / 12).toLocaleString();
 
-      // Atualizar os Tiers de acordo com os cálculos
+      // Update Tier 1 earnings (you can expand this for other Tiers)
+      document.getElementById("revTier1Recruit").innerHTML = Math.round(revCalculatedTiers[0].annualShare).toLocaleString();
     }
 
-    add(); // Inicializador
-
-    const allRanges = document.querySelectorAll(".range-wrap");
-    allRanges.forEach(wrap => {
-      const range = wrap.querySelector(".form-range");
-      const bubble = wrap.querySelector("output");
-      range.addEventListener("input", () => {
-        setBubble(range, bubble);
-      });
-      setBubble(range, bubble);
-    });
-
-    const allInputs = document.querySelectorAll("input");
-    allInputs.forEach(input => {
-      input.addEventListener("change", () => add());
-    });
-
-    function setBubble(range, bubble) {
-      const val = range.value;
-      const min = range.min ? range.min : 0;
-      const max = range.max ? range.max : 100;
-      const newVal = Number(((val - min) * 100) / (max - min));
-      bubble.innerHTML = val;
-      bubble.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
-    }
+    add(); // Initialize with default values
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
     crossorigin="anonymous"></script>
