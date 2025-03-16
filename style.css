@@ -1,68 +1,42 @@
-// Definir as faixas de comissões para cada nível (tier)
-const commissionRatesPerTier = [
-    { // Tier 1
-        ranges: [ { min: 0, max: 4, rate: 0.035 }, { min: 5, max: 9, rate: 0.035 }, { min: 10, max: 14, rate: 0.035 }, { min: 15, max: 19, rate: 0.035 }, { min: 20, max: 24, rate: 0.035 }, { min: 25, max: 29, rate: 0.035 }, { min: 30, rate: 0.035 } ],
-        maxPerAgent: 2800
-    },
-    { // Tier 2
-        ranges: [ { min: 0, max: 4, rate: 0.002 }, { min: 5, max: 9, rate: 0.038 }, { min: 10, max: 14, rate: 0.038 }, { min: 15, max: 19, rate: 0.038 }, { min: 20, max: 24, rate: 0.038 }, { min: 25, max: 29, rate: 0.038 }, { min: 30, rate: 0.04 } ],
-        maxPerAgent: 3200
-    },
-    { // Tier 3
-        ranges: [ { min: 0, max: 4, rate: 0.001 }, { min: 10, max: 14, rate: 0.024 }, { min: 15, max: 19, rate: 0.024 }, { min: 20, max: 24, rate: 0.024 }, { min: 25, max: 29, rate: 0.024 }, { min: 30, rate: 0.025 } ],
-        maxPerAgent: 2000
-    },
-    { // Tier 4
-        ranges: [ { min: 0, max: 4, rate: 0.001 }, { min: 15, max: 19, rate: 0.014 }, { min: 20, max: 24, rate: 0.014 }, { min: 25, max: 29, rate: 0.014 }, { min: 30, rate: 0.015 } ],
-        maxPerAgent: 1200
-    },
-    { // Tier 5
-        ranges: [ { min: 0, max: 4, rate: 0.001 }, { min: 20, max: 24, rate: 0.009 }, { min: 25, max: 29, rate: 0.009 }, { min: 30, rate: 0.01 } ],
-        maxPerAgent: 800
-    },
-    { // Tier 6
-        ranges: [ { min: 0, max: 4, rate: 0.005 }, { min: 25, max: 29, rate: 0.02 }, { min: 30, rate: 0.025 } ],
-        maxPerAgent: 2000
-    },
-    { // Tier 7
-        ranges: [ { min: 0, max: 4, rate: 0.005 }, { min: 30, max: 30, rate: 0.045 }, { min: 30, rate: 0.05 } ],
-        maxPerAgent: 4000
-    }
-];
+/* Ajusta o layout do contêiner */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
 
-function calculateCommissions() {
-    const homesSoldPerYear = parseFloat(document.getElementById('homesSoldPerYear').value) || 6;
-    const avgHomePrice = parseFloat(document.getElementById('avgHomePrice').value) || 300000;
-    const commissionPercentage = parseFloat(document.getElementById('commissionPercentage').value) / 100 || 0.025;
+/* Estilo para os form-groups */
+.form-group {
+    margin-bottom: 15px;
+}
 
-    const form = document.getElementById('commissionForm');
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = ''; // Limpar resultados anteriores
+/* Estilo para os sliders */
+input[type="range"] {
+    width: 100%;
+}
 
-    commissionRatesPerTier.forEach((tier, index) => {
-        const agentsInput = form[`agentsTier${index + 1}`];
-        const numAgents = parseInt(agentsInput.value) || 0;
-        const totalCommissionPerDeal = avgHomePrice * commissionPercentage;
-        let commissionPerAgent = 0;
+/* Espaçamento entre o slider e o valor exibido */
+.tier span {
+    margin-left: 10px;
+    font-weight: bold;
+}
 
-        // Encontrar a faixa de comissão correta com base no número de agentes
-        tier.ranges.forEach(range => {
-            if (numAgents >= (range.min || 0) && (range.max === undefined || numAgents <= range.max)) {
-                commissionPerAgent = range.rate * totalCommissionPerDeal;
-            }
-        });
+/* Estilo para o botão de calcular */
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        const totalCommission = Math.min(commissionPerAgent * numAgents * homesSoldPerYear, tier.maxPerAgent * numAgents);
+button:hover {
+    background-color: #0056b3;
+}
 
-        // Criar e exibir os resultados
-        const tierResult = document.createElement('div');
-        tierResult.classList.add('tier-result');
-        tierResult.innerHTML = `
-            <h3>Nível ${index + 1}</h3>
-            <p>${numAgents} agentes no Nível ${index + 1}</p>
-            <p>Comissão por agente: €${commissionPerAgent.toFixed(2)}</p>
-            <p>Comissão total: €${totalCommission.toFixed(2)}</p>
-        `;
-        resultsDiv.appendChild(tierResult);
-    });
+/* Resultados */
+#results {
+    margin-top: 20px;
+    font-size: 1.2em;
 }
