@@ -1,10 +1,18 @@
-/* Ajusta o layout do contêiner */
+/* Layout geral da página em duas colunas */
 .container {
-    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
     margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
 }
 
-/* Estilo para os form-groups */
+/* Estilo para cada coluna */
+.column {
+    width: 45%;
+}
+
+/* Estilo para o formulário */
 .form-group {
     margin-bottom: 15px;
 }
@@ -20,9 +28,29 @@ input[type="range"] {
     font-weight: bold;
 }
 
-/* Estilo para o botão de calcular */
-button {
+/* Estilo da tabela de resultados */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Estilo para o título dos resultados */
+#resultsColumn h2 {
+    margin-bottom: 20px;
+}
+
+#resultsColumn h3 {
     margin-top: 20px;
+}
+
+/* Estilo geral para os botões */
+button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -33,10 +61,4 @@ button {
 
 button:hover {
     background-color: #0056b3;
-}
-
-/* Resultados */
-#results {
-    margin-top: 20px;
-    font-size: 1.2em;
 }

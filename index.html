@@ -8,89 +8,129 @@
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora de Comissões</h1>
-        
-        <form id="commissionForm">
-            <!-- Número de casas vendidas por ano -->
-            <div class="form-group">
-                <label for="homesSoldPerYear">Número de casas vendidas por ano:</label>
-                <input type="number" id="homesSoldPerYear" name="homesSoldPerYear" value="6" min="1">
-                <small>O agente médio vende 6 casas por ano</small>
-            </div>
+        <!-- Coluna dos resultados -->
+        <div class="column" id="resultsColumn">
+            <h2>Resultados</h2>
+            <table>
+                <tr>
+                    <td>Receita Anual Total:</td>
+                    <td>€<span id="expTotalAnnualShare">0</span></td>
+                </tr>
+                <tr>
+                    <td>Receita Mensal Total:</td>
+                    <td>€<span id="expTotalMonthlyShare">0</span></td>
+                </tr>
+            </table>
 
-            <!-- Preço médio de venda da casa -->
-            <div class="form-group">
-                <label for="avgHomePrice">Preço médio de venda da casa:</label>
-                <input type="number" id="avgHomePrice" name="avgHomePrice" value="300000" min="0">
-                <small>O preço médio das casas varia entre €300,000</small>
-            </div>
+            <h3>Resultados por Nível</h3>
+            <table>
+                <tr>
+                    <td>Nível 1:</td>
+                    <td>€<span id="tier1Income">0</span></td>
+                </tr>
+                <tr>
+                    <td>Nível 2:</td>
+                    <td>€<span id="tier2Income">0</span></td>
+                </tr>
+                <tr>
+                    <td>Nível 3:</td>
+                    <td>€<span id="tier3Income">0</span></td>
+                </tr>
+                <tr>
+                    <td>Nível 4:</td>
+                    <td>€<span id="tier4Income">0</span></td>
+                </tr>
+                <tr>
+                    <td>Nível 5:</td>
+                    <td>€<span id="tier5Income">0</span></td>
+                </tr>
+                <tr>
+                    <td>Nível 6:</td>
+                    <td>€<span id="tier6Income">0</span></td>
+                </tr>
+                <tr>
+                    <td>Nível 7:</td>
+                    <td>€<span id="tier7Income">0</span></td>
+                </tr>
+            </table>
+        </div>
 
-            <!-- Comissão média por negócio -->
-            <div class="form-group">
-                <label for="commissionPercentage">Comissão média:</label>
-                <input type="number" id="commissionPercentage" name="commissionPercentage" value="2.5" step="0.01" min="0" max="100">
-                <small>O agente médio ganha 2,5% por negócio</small>
-            </div>
+        <!-- Coluna de entrada de dados -->
+        <div class="column" id="inputColumn">
+            <h1>Calculadora de Comissões</h1>
 
-            <!-- Níveis (Tiers) -->
-            <div class="tier" data-tier="1">
-                <label for="agentsTier1">Número de agentes no Nível 1:</label>
-                <input type="range" id="agentsTier1" name="agentsTier1" value="0" min="0" max="100" oninput="updateTierValue(1)">
-                <span id="agentsTier1Value">0 agentes no Nível 1</span>
-                <p>3,5% com um máximo de €2800 por agente</p>
-            </div>
+            <form id="commissionForm">
+                <!-- Número de casas vendidas por ano -->
+                <div class="form-group">
+                    <label for="homesSoldPerYear">Número de casas vendidas por ano:</label>
+                    <input type="number" id="homesSoldPerYear" name="homesSoldPerYear" value="6" min="1" oninput="calculateCommissions()">
+                    <small>O agente médio vende 6 casas por ano</small>
+                </div>
 
-            <div class="tier" data-tier="2">
-                <label for="agentsTier2">Número de agentes no Nível 2:</label>
-                <input type="range" id="agentsTier2" name="agentsTier2" value="0" min="0" max="100" oninput="updateTierValue(2)">
-                <span id="agentsTier2Value">0 agentes no Nível 2</span>
-                <p>0,2% com um máximo de €3200 por agente</p>
-            </div>
+                <!-- Preço médio de venda da casa -->
+                <div class="form-group">
+                    <label for="avgHomePrice">Preço médio de venda da casa:</label>
+                    <input type="number" id="avgHomePrice" name="avgHomePrice" value="300000" min="0" oninput="calculateCommissions()">
+                    <small>O preço médio das casas varia entre €300,000</small>
+                </div>
 
-            <div class="tier" data-tier="3">
-                <label for="agentsTier3">Número de agentes no Nível 3:</label>
-                <input type="range" id="agentsTier3" name="agentsTier3" value="0" min="0" max="100" oninput="updateTierValue(3)">
-                <span id="agentsTier3Value">0 agentes no Nível 3</span>
-                <p>0,1% com um máximo de €2000 por agente</p>
-            </div>
+                <!-- Comissão média por negócio -->
+                <div class="form-group">
+                    <label for="commissionPercentage">Comissão média:</label>
+                    <input type="number" id="commissionPercentage" name="commissionPercentage" value="2.5" step="0.01" min="0" max="100" oninput="calculateCommissions()">
+                    <small>O agente médio ganha 2,5% por negócio</small>
+                </div>
 
-            <div class="tier" data-tier="4">
-                <label for="agentsTier4">Número de agentes no Nível 4:</label>
-                <input type="range" id="agentsTier4" name="agentsTier4" value="0" min="0" max="100" oninput="updateTierValue(4)">
-                <span id="agentsTier4Value">0 agentes no Nível 4</span>
-                <p>0,1% com um máximo de €1200 por agente</p>
-            </div>
+                <!-- Níveis (Tiers) -->
+                <div class="tier" data-tier="1">
+                    <label for="agentsTier1">Número de agentes no Nível 1:</label>
+                    <input type="range" id="agentsTier1" name="agentsTier1" value="0" min="0" max="100" oninput="updateTierValue(1); calculateCommissions()">
+                    <span id="agentsTier1Value">0 agentes no Nível 1</span>
+                    <p>3,5% com um máximo de €2800 por agente</p>
+                </div>
 
-            <div class="tier" data-tier="5">
-                <label for="agentsTier5">Número de agentes no Nível 5:</label>
-                <input type="range" id="agentsTier5" name="agentsTier5" value="0" min="0" max="100" oninput="updateTierValue(5)">
-                <span id="agentsTier5Value">0 agentes no Nível 5</span>
-                <p>0,1% com um máximo de €800 por agente</p>
-            </div>
+                <div class="tier" data-tier="2">
+                    <label for="agentsTier2">Número de agentes no Nível 2:</label>
+                    <input type="range" id="agentsTier2" name="agentsTier2" value="0" min="0" max="100" oninput="updateTierValue(2); calculateCommissions()">
+                    <span id="agentsTier2Value">0 agentes no Nível 2</span>
+                    <p>0,2% com um máximo de €3200 por agente</p>
+                </div>
 
-            <div class="tier" data-tier="6">
-                <label for="agentsTier6">Número de agentes no Nível 6:</label>
-                <input type="range" id="agentsTier6" name="agentsTier6" value="0" min="0" max="100" oninput="updateTierValue(6)">
-                <span id="agentsTier6Value">0 agentes no Nível 6</span>
-                <p>0,5% com um máximo de €2000 por agente</p>
-            </div>
+                <div class="tier" data-tier="3">
+                    <label for="agentsTier3">Número de agentes no Nível 3:</label>
+                    <input type="range" id="agentsTier3" name="agentsTier3" value="0" min="0" max="100" oninput="updateTierValue(3); calculateCommissions()">
+                    <span id="agentsTier3Value">0 agentes no Nível 3</span>
+                    <p>0,1% com um máximo de €2000 por agente</p>
+                </div>
 
-            <div class="tier" data-tier="7">
-                <label for="agentsTier7">Número de agentes no Nível 7:</label>
-                <input type="range" id="agentsTier7" name="agentsTier7" value="0" min="0" max="100" oninput="updateTierValue(7)">
-                <span id="agentsTier7Value">0 agentes no Nível 7</span>
-                <p>0,5% com um máximo de €4000 por agente</p>
-            </div>
+                <div class="tier" data-tier="4">
+                    <label for="agentsTier4">Número de agentes no Nível 4:</label>
+                    <input type="range" id="agentsTier4" name="agentsTier4" value="0" min="0" max="100" oninput="updateTierValue(4); calculateCommissions()">
+                    <span id="agentsTier4Value">0 agentes no Nível 4</span>
+                    <p>0,1% com um máximo de €1200 por agente</p>
+                </div>
 
-            <!-- Botão para calcular -->
-            <button type="button" onclick="calculateCommissions()">Calcular</button>
-        </form>
+                <div class="tier" data-tier="5">
+                    <label for="agentsTier5">Número de agentes no Nível 5:</label>
+                    <input type="range" id="agentsTier5" name="agentsTier5" value="0" min="0" max="100" oninput="updateTierValue(5); calculateCommissions()">
+                    <span id="agentsTier5Value">0 agentes no Nível 5</span>
+                    <p>0,1% com um máximo de €800 por agente</p>
+                </div>
 
-        <!-- Resultados -->
-        <div id="results">
-            <h2>Resultado Total</h2>
-            <p>Receita Anual: €<span id="expTotalAnnualShare">0</span></p>
-            <p>Receita Mensal: €<span id="expTotalMonthlyShare">0</span></p>
+                <div class="tier" data-tier="6">
+                    <label for="agentsTier6">Número de agentes no Nível 6:</label>
+                    <input type="range" id="agentsTier6" name="agentsTier6" value="0" min="0" max="100" oninput="updateTierValue(6); calculateCommissions()">
+                    <span id="agentsTier6Value">0 agentes no Nível 6</span>
+                    <p>0,5% com um máximo de €2000 por agente</p>
+                </div>
+
+                <div class="tier" data-tier="7">
+                    <label for="agentsTier7">Número de agentes no Nível 7:</label>
+                    <input type="range" id="agentsTier7" name="agentsTier7" value="0" min="0" max="100" oninput="updateTierValue(7); calculateCommissions()">
+                    <span id="agentsTier7Value">0 agentes no Nível 7</span>
+                    <p>0,5% com um máximo de €4000 por agente</p>
+                </div>
+            </form>
         </div>
     </div>
 
