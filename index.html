@@ -114,6 +114,22 @@
             </div>
           </div>
 
+          <!-- Tier 1 Recruits -->
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="tier1Recruits" placeholder="5" min="0" value="0" />
+              <label for="tier1Recruits">Número de recrutas no Tier 1</label>
+            </div>
+          </div>
+
+          <!-- Revshare Percentage -->
+          <div class="col-md-12">
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="revsharePercentage" placeholder="5" min="0" value="5" />
+              <label for="revsharePercentage">Percentagem de Revshare (%)</label>
+            </div>
+          </div>
+
           <button type="button" class="btn btn-primary btn-lg w-100" onclick="add()">Calcular</button>
         </form>
       </div>
@@ -133,8 +149,8 @@
         </div>
 
         <div class="metric-card">
-          <h3>Rendimento por Tier</h3>
-          <p>Tier 1: €<span id="revTier1Recruit">0</span></p>
+          <h3>Rendimento do Tier 1</h3>
+          <p>€<span id="revTier1Share">0</span></p>
         </div>
       </div>
     </div>
@@ -145,20 +161,30 @@
     </div>
   </div>
 
-  <script src="./assets/js/helper.js"></script>
-  <script src="./assets/js/urlparams.js"></script>
-  <script src="./assets/js/exp.js"></script>
   <script>
+    function calculateRevTiers() {
+      const homesSold = parseFloat(document.getElementById('homesSold').value);
+      const avgHomePrice = parseFloat(document.getElementById('avgHomePrice').value);
+      const commissionRate = parseFloat(document.getElementById('commissionRate').value);
+      const tier1Recruits = parseFloat(document.getElementById('tier1Recruits').value);
+      const revsharePercentage = parseFloat(document.getElementById('revsharePercentage').value);
+
+      const agentCommission = (homesSold * avgHomePrice * (commissionRate / 100));
+      const revshareTier1 = (tier1Recruits * agentCommission * (revsharePercentage / 100));
+
+      return {
+        annualShare: agentCommission + revshareTier1,
+        monthlyShare: (agentCommission + revshareTier1) / 12,
+        tier1Share: revshareTier1
+      };
+    }
+
     function add() {
-      const revCalculatedTiers = calculateRevTiers();
+      const revCalculated = calculateRevTiers();
 
-      let revTotalAnnualShare = 0;
-      for (const revTier of revCalculatedTiers) revTotalAnnualShare += revTier.annualShare;
-      document.getElementById("revTotalAnnualShare").innerHTML = Math.round(revTotalAnnualShare).toLocaleString();
-      document.getElementById("revTotalMonthlyShare").innerHTML = Math.round(revTotalAnnualShare / 12).toLocaleString();
-
-      // Update Tier 1 earnings (you can expand this for other Tiers)
-      document.getElementById("revTier1Recruit").innerHTML = Math.round(revCalculatedTiers[0].annualShare).toLocaleString();
+      document.getElementById("revTotalAnnualShare").innerHTML = Math.round(revCalculated.annualShare).toLocaleString();
+      document.getElementById("revTotalMonthlyShare").innerHTML = Math.round(revCalculated.monthlyShare).toLocaleString();
+      document.getElementById("revTier1Share").innerHTML = Math.round(revCalculated.tier1Share).toLocaleString();
     }
 
     add(); // Initialize with default values
